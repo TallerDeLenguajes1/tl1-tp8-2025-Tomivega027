@@ -1,45 +1,90 @@
-﻿// See https://aka.ms/new-console-template for more information
-using ManejoDeTareas;
+﻿using Tareas;
+// See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
-//Tarea[] Tareas = new Tarea[3];
-string [] descripcion = {"Calculo 1, Algebra 2, Labo 5, Taller 4, AED2"};
 
-class GestorDeTareas
+List<Tarea> TareaPendientes = new List<Tarea>();
+List<Tarea> TareaRealizadas = new List<Tarea>();
+
+int CantTareas;
+Console.WriteLine("Ingrese la cantidad de tareas:");// pedimos que ingrese la cantidad de tarea aagregar
+string numero = Console.ReadLine();
+int.TryParse(numero, out CantTareas);
+
+string[] descripcion = { "calculo1", "calculo2", " taller", "arquitectura", "algebra" };//colocamos decripciones definidas
+
+
+for (int i = 0; i < CantTareas; i++)
 {
-    List<Tarea> tareasPendientes;
-    List<Tarea> tareasRealizadas;
-    int contadorId;
-    public GestorDeTareas(){
-        tareasRealizadas = new List<Tarea>();
-        tareasPendientes = [];
-        contadorId = 1;
+    int duracion;
+    Console.WriteLine($"ingrese la duracion de la tarea numero{i + 1} :");
+    string buff = Console.ReadLine();
+    int.TryParse(buff, out duracion);// hasta aqui pedimos duracion de la tarea 
+    Tarea nueva = new Tarea(i , descripcion[i] , duracion , EstadoTarea.pendientes);
+    // hacemos un tarea nueva para poder ingresar los datos de tipo tarea y
+    //  luego insertarlos en tareas pendientes
+    TareaPendientes.Add(nueva);// aqui pasamos los datos a tarea pendientes
+}
+//aqui recorremos con un foreach para mostrar lo que tiene TareasPendientes 
+foreach (Tarea pendientes in TareaPendientes)
+{
+    Console.WriteLine(pendientes.mostrar());
+}
+    int cambiar;
+do
+{
+    cambiar = 0;
+    Console.WriteLine("si desea pasar tareas pendientes a realizadas (PRESIONE 1):");
+    Console.WriteLine("si NO desea pasar tareas pendientes a realizadas (PRESIONE 0)");
+    string buff1 = Console.ReadLine();
+    int.TryParse(buff1, out cambiar);
+
+    if (cambiar == 1)
+    {
+        int id;
+        Console.WriteLine("ingrese el id de la tarea que quiere pasar a realizadas:");
+        string buff2 = Console.ReadLine();
+        int.TryParse(buff2, out id);
+
+        foreach (Tarea pendientes in TareaPendientes)// recorremos pendientes para pasar tarea
+        {
+            if (pendientes.TareaID == id)
+            {
+                pendientes.Estado = EstadoTarea.realizadas;
+                TareaRealizadas.Add(pendientes);
+
+            }
+        }
+        //removemos afuera , adentro de foreach no funciona
+        TareaPendientes.RemoveAt(id);
     }
-    public void agregarTarea(Tarea nuevaTarea){
-        nuevaTarea.TareaID = contadorId++;
-        tareasPendientes.Add(nuevaTarea);
-    }
-    public int CantidadtareasPendientes(){
-        return tareasPendientes.Count;
+
+} while (cambiar == 1);
+
+Console.WriteLine("ingrese una descripcion de tarea pendientes a buscar:");
+string buscarDescrip = Console.ReadLine();
+
+foreach (Tarea pendientes in TareaPendientes)
+{
+    if (pendientes.Descripcion == buscarDescrip)
+    {
+        Console.WriteLine(pendientes.mostrar());
     }
 }
-/* var Tareas = new List<Tarea>();
 
-for (int i = 0; i < ; i++)
+//mostramos realizadas y pendientes
+Console.WriteLine("-------REALIZADAS-------");
+foreach (Tarea realizadas in TareaRealizadas)
 {
-    
+    Console.WriteLine(realizadas.mostrar());
 }
 
-foreach (var tarea in Tareas)
+Console.WriteLine("-------PENDIENTES-------");
+foreach (Tarea pendientes in TareaPendientes)
 {
-    Console.WriteLine(tarea.MostrarTarea());
-} */
+    Console.WriteLine(pendientes.mostrar());
+}
 
-//Console.WriteLine("Cantidad de tareas:" + Tareas.Count);
-/* for (int i = 0; i < TareasDia.Length; i++)
-{
-    TareasDia[i] = new Tarea();
-    TareasDia[i].TareaID = i;
-    TareasDia[i].Descripcion = "Calculo3";
-    TareasDia[i].Duracion = 11;
-    Console.WriteLine(TareasDia[i].MostrarTarea());
-}    */
+
+
+
+

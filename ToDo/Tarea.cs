@@ -1,38 +1,40 @@
-namespace ManejoDeTareas
+namespace Tareas
 {
-    
-public class Tarea {    
-    Tarea value;
- public int TareaID { get; set; }
- public string Descripcion { get; set; }
- public int Duracion { get; set; } // Validar que esté entre
-public EstadoTarea Estado { get => estado; set => estado = value; }
+    public enum EstadoTarea
+    {
+        pendientes = 0,
+        realizadas = 1
+    }
+    public class Tarea // mi clase tarea tiene 4 objetos 
+    {
+        public int TareaID { get; set; }
+        public string Descripcion { get; set; }
+        public int Duracion { get; set; }
+        public EstadoTarea Estado { get; set; }
 
-        //10 y 100
-        // Puedes añadir un constructor y métodos auxiliares si
-        //lo consideras necesario
-        EstadoTarea estado;
-public Tarea(){
-    Estado = EstadoTarea.pendiente;
-}
+        public Tarea()
+        {
+            Estado = EstadoTarea.pendientes; // las tareas que se creen tendran por defect. pendientes 
+        }
 
-public Tarea(int TareaID, string Descripcion, int Duracion, EstadoTarea estado){
-    this.TareaID = TareaID;
-    this.Descripcion = Descripcion;
-    this.Duracion = Duracion;
-    this.estado = estado;
-}
-public string MostrarTarea(){
-    return TareaID + " | " + Descripcion + " | " + Duracion + " | " + Estado.ToString();
-}
+        //obtenemos los valores 
+        public Tarea(int TareaID, string Descripcion, int Duracion, EstadoTarea estado)
+        {
+            this.TareaID = TareaID;
+            this.Descripcion = Descripcion;
+            this.Duracion = Duracion;
+            Estado = estado;
+        }
 
-    List<Tarea> tareasPendientes = new List<Tarea>();
-    List<Tarea> tareasRealizadas = new List<Tarea>();
-    //tareasPendientes.añadir();
+        public string mostrar()
+        {
+            return TareaID + " | " + Descripcion + " | " + Duracion + " | " + Estado.ToString();
+        }
 
-}
-}
-public enum EstadoTarea{
-    pendiente = 0,
-    completada = 1
+
+        
+
+        // Validar que esté entre10 y 100
+        // Puedes añadir un constructor y métodos auxiliares si lo consideras necesario
+    }
 }
